@@ -1,11 +1,10 @@
-// Google Apps Script Web App URL'ini buraya yapıştır
+// Google Apps Script Web App URL'ini buraya kopyala
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytH3vOVCQhxaCHFxynAW2LR338bdUHagCgbuVWjH2PF4HscuZxn6UynP_-4rjtUIneMw/exec";
 
 const raterId = "usr_" + Math.random().toString(36).substring(2, 8);
 
-// Dosya adlarına (sweep00X_vX.XXXX.wav) birebir uyumlu test listesi
 const trialsData = [
-  // --- CSOUND ---
+  // CSOUND
   {
     trial_id: 1,
     backend: "Csound",
@@ -32,8 +31,7 @@ const trialsData = [
       { key: "p100", src: "audio_files/csound/p40_cho.rate/sweep004_v1.0000.wav" }
     ]
   },
-
-  // --- FLUIDSYNTH ---
+  // FLUIDSYNTH
   {
     trial_id: 3,
     backend: "FluidSynth",
@@ -73,8 +71,7 @@ const trialsData = [
       { key: "p100", src: "audio_files/fluidsynth/p30_gen.mod_sustain/sweep004_v1.0000.wav" }
     ]
   },
-
-  // --- PEDALBOARD ---
+  // PEDALBOARD
   {
     trial_id: 6,
     backend: "Pedalboard",
@@ -101,8 +98,7 @@ const trialsData = [
       { key: "p100", src: "audio_files/pedalboard/p25_flt.mode/sweep004_v1.0000.wav" }
     ]
   },
-
-  // --- PYO ---
+  // PYO
   {
     trial_id: 8,
     backend: "Pyo",
@@ -142,8 +138,7 @@ const trialsData = [
       { key: "p100", src: "audio_files/pyo/p46_del.time/sweep004_v1.0000.wav" }
     ]
   },
-
-  // --- TORCHSYNTH ---
+  // TORCHSYNTH
   {
     trial_id: 11,
     backend: "TorchSynth",
@@ -175,11 +170,12 @@ const trialsData = [
 let currentTrialIdx = 0;
 let collectedResults = [];
 
-function startTest() {
+// Fonksiyonları global window nesnesine atayarak HTML erişimini kesinleştiriyoruz
+window.startTest = function() {
   document.getElementById("onboarding-screen").classList.add("hidden");
   document.getElementById("trial-screen").classList.remove("hidden");
   loadTrial(currentTrialIdx);
-}
+};
 
 function loadTrial(idx) {
   const trial = trialsData[idx];
@@ -208,7 +204,7 @@ function loadTrial(idx) {
   });
 }
 
-function nextTrial() {
+window.nextTrial = function() {
   const trial = trialsData[currentTrialIdx];
   const inputs = document.querySelectorAll(".score-input");
   const scores = {};
@@ -231,7 +227,7 @@ function nextTrial() {
   } else {
     submitAllData();
   }
-}
+};
 
 function submitAllData() {
   document.getElementById("trial-screen").classList.add("hidden");

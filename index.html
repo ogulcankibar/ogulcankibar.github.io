@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Parameter Sensitivity Test</title>
+    <title>Audio Parameter Sensitivity Listening Test</title>
     <link rel="stylesheet" href="style.css">
+    <!-- defer ekleyerek fonksiyonların HTML yüklenmeden önce hazır olmasını garantiliyoruz -->
+    <script src="app.js" defer></script>
 </head>
 <body>
 
     <div class="container">
-        <!-- Onboarding / Calibration Phase -->
+        <!-- Onboarding Screen -->
         <div id="onboarding-screen" class="card">
             <h2>Listening Test: Synthesizer Timbral Sensitivity</h2>
             <p>Help us evaluate how human listening perceives changes across synthesizer controls.</p>
@@ -32,10 +34,10 @@
                 </select>
             </div>
 
-            <button onclick="startTest()">Start Experiment</button>
+            <button id="start-btn" onclick="startTest()">Start Experiment</button>
         </div>
 
-        <!-- Trial Screen (Dynamically Rendered) -->
+        <!-- Trial Screen -->
         <div id="trial-screen" class="card hidden">
             <h3 id="trial-title">Trial 1 / 12</h3>
             
@@ -62,6 +64,5 @@
         </div>
     </div>
 
-    <script src="app.js"></script>
 </body>
 </html>
