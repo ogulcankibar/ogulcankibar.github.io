@@ -3,78 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Parameter Sensitivity Listening Test</title>
+    <title>Audio Parameter Sensitivity Test</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="header-box">
-        <h2>Synthesizer Timbral Sensitivity Test</h2>
-        <p>Listen to the <strong>Reference Sound</strong>, then play each <strong>Test Stimulus</strong>. Rate how noticeably different each test sound is from the Reference on a scale from 0 (Identical) to 100 (Completely Different).</p>
-    </div>
+    <div class="container">
+        <!-- Onboarding / Calibration Phase -->
+        <div id="onboarding-screen" class="card">
+            <h2>Listening Test: Synthesizer Timbral Sensitivity</h2>
+            <p>Help us evaluate how human listening perceives changes across synthesizer controls.</p>
+            
+            <div class="form-group">
+                <label for="experience">Audio Background:</label>
+                <select id="experience">
+                    <option value="Producer/Engineer">Sound Designer / Audio Engineer</option>
+                    <option value="Researcher">Audio Researcher / Musician</option>
+                    <option value="Casual">Casual Listener</option>
+                </select>
+            </div>
 
-    <!-- Trial 1 Setup -->
-    <div class="test-card" id="trial-1">
-        <h3>Trial 1 / 12 — TorchSynth: Envelope 1 Release</h3>
-        
-        <!-- Reference Anchor (Mid-range p=0.50) -->
-        <div class="reference-box">
-            <h4>Reference Clip (Baseline Anchor, p = 0.50)</h4>
-            <audio controls src="audio/torchsynth_ref_p050.wav"></audio>
+            <div class="form-group">
+                <label for="hardware">Listening Equipment:</label>
+                <select id="hardware">
+                    <option value="Over-ear Headphones">Over-ear Headphones</option>
+                    <option value="IEMs">In-Ear Monitors / Earbuds</option>
+                    <option value="Monitors">Studio Monitors</option>
+                </select>
+            </div>
+
+            <button onclick="startTest()">Start Experiment</button>
         </div>
 
-        <p><strong>Rate Timbral Differences against Reference:</strong></p>
-        
-        <div class="scale-legend">
-            <span>0 = Identical / No difference</span>
-            <span>100 = Completely different sound</span>
+        <!-- Trial Screen (Dynamically Rendered) -->
+        <div id="trial-screen" class="card hidden">
+            <h3 id="trial-title">Trial 1 / 12</h3>
+            
+            <div class="reference-box">
+                <h4>Reference Sound (Anchor, p = 0.50)</h4>
+                <audio id="ref-audio" controls></audio>
+            </div>
+
+            <p><strong>Rate Timbral Differences against Reference:</strong></p>
+            <div class="scale-legend">
+                <span>0 = Identical</span>
+                <span>100 = Completely Different</span>
+            </div>
+
+            <div id="stimuli-container"></div>
+
+            <button id="next-btn" onclick="nextTrial()">Next Trial</button>
         </div>
-        <hr class="divider">
 
-        <div id="stimuli-container">
-            <!-- Stimulus A (p = 0.05) -->
-            <div class="stimulus-row">
-                <span class="stimulus-label">Stimulus A</span>
-                <audio controls src="audio/torchsynth_adsr1_release_p005.wav"></audio>
-                <input type="range" class="score-input" data-param="p005" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-                <output>50</output>
-            </div>
-
-            <!-- Stimulus B (p = 0.25) -->
-            <div class="stimulus-row">
-                <span class="stimulus-label">Stimulus B</span>
-                <audio controls src="audio/torchsynth_adsr1_release_p025.wav"></audio>
-                <input type="range" class="score-input" data-param="p025" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-                <output>50</output>
-            </div>
-
-            <!-- Stimulus C (Hidden Reference Check: p = 0.50) -->
-            <div class="stimulus-row">
-                <span class="stimulus-label">Stimulus C</span>
-                <audio controls src="audio/torchsynth_ref_p050.wav"></audio>
-                <input type="range" class="score-input" data-param="p050_hidden" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-                <output>50</output>
-            </div>
-
-            <!-- Stimulus D (p = 0.75) -->
-            <div class="stimulus-row">
-                <span class="stimulus-label">Stimulus D</span>
-                <audio controls src="audio/torchsynth_adsr1_release_p075.wav"></audio>
-                <input type="range" class="score-input" data-param="p075" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-                <output>50</output>
-            </div>
-
-            <!-- Stimulus E (p = 0.95) -->
-            <div class="stimulus-row">
-                <span class="stimulus-label">Stimulus E</span>
-                <audio controls src="audio/torchsynth_adsr1_release_p095.wav"></audio>
-                <input type="range" class="score-input" data-param="p095" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-                <output>50</output>
-            </div>
+        <!-- Completion Screen -->
+        <div id="completion-screen" class="card hidden">
+            <h2>Thank You!</h2>
+            <p>Your responses have been successfully submitted to the research database.</p>
         </div>
     </div>
-
-    <button id="submit-btn" onclick="submitResults()">Submit Test Results</button>
 
     <script src="app.js"></script>
 </body>
