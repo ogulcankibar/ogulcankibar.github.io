@@ -84,6 +84,7 @@ output {
     font-size: 0.8em;
     color: #64748b;
     margin-top: 4px;
+    margin-bottom: 16px;
 }
 
 .form-group {

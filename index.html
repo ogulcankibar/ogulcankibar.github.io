@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Parameter Sensitivity Listening Test</title>
     <link rel="stylesheet" href="style.css">
-    <!-- defer ekleyerek fonksiyonların HTML yüklenmeden önce hazır olmasını garantiliyoruz -->
     <script src="app.js" defer></script>
 </head>
 <body>
 
     <div class="container">
-        <!-- Onboarding Screen -->
+        <!-- Onboarding / Calibration Phase -->
         <div id="onboarding-screen" class="card">
             <h2>Listening Test: Synthesizer Timbral Sensitivity</h2>
-            <p>Help us evaluate how human listening perceives changes across synthesizer controls.</p>
+            <p>Help us evaluate how human listening perceives changes across synthesizer controls compared to baseline reference sounds.</p>
             
             <div class="form-group">
                 <label for="experience">Audio Background:</label>
@@ -42,14 +41,14 @@
             <h3 id="trial-title">Trial 1 / 12</h3>
             
             <div class="reference-box">
-                <h4>Reference Sound (Anchor, p = 0.50)</h4>
+                <h4>Reference Sound (Baseline Anchor, p = 0.50)</h4>
                 <audio id="ref-audio" controls></audio>
             </div>
 
             <p><strong>Rate Timbral Differences against Reference:</strong></p>
             <div class="scale-legend">
-                <span>0 = Identical</span>
-                <span>100 = Completely Different</span>
+                <span>0 = Identical to Reference</span>
+                <span>100 = Completely Different Sound</span>
             </div>
 
             <div id="stimuli-container"></div>
