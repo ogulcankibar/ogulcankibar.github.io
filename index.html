@@ -2,7 +2,7 @@
 <html lang="tr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ses Parametresi Duyarlılık Testi</title>
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
@@ -17,7 +17,7 @@
         </div>
     </header>
 
-    <div class="container">
+    <main class="container">
         <!-- Onboarding Screen -->
         <div id="onboarding-screen" class="card">
             <h2 data-i18n="title">Dinleme Testi: Sentezleyici Tınısal Duyarlılığı</h2>
@@ -47,7 +47,7 @@
                 </select>
             </div>
 
-            <button id="start-btn" onclick="startTest()" data-i18n="btn_start">Deneyi Başlat</button>
+            <button id="start-btn" class="btn-primary" onclick="startTest()" data-i18n="btn_start">Deneyi Başlat</button>
         </div>
 
         <!-- Trial Screen -->
@@ -59,17 +59,19 @@
                 <audio id="ref-audio" controls class="test-audio"></audio>
             </div>
 
-            <p><strong data-i18n="rate_title">Referansa Kıyasla Tınısal Farkı Puanlayın:</strong></p>
-            <div class="scale-legend">
-                <span data-i18n="scale_0">0 = Referans ile Birebir Aynı</span>
-                <span data-i18n="scale_100">100 = Tamamen Farklı Ses</span>
+            <div class="instruction-box">
+                <p><strong data-i18n="rate_title">Referansa Kıyasla Tınısal Farkı Puanlayın:</strong></p>
+                <div class="scale-legend">
+                    <span data-i18n="scale_0">0 = Referans ile Birebir Aynı</span>
+                    <span data-i18n="scale_100">100 = Tamamen Farklı Ses</span>
+                </div>
             </div>
 
-            <!-- Dinamik Uyaranlar Buraya Basılacak -->
+            <!-- Dynamic Stimuli Container -->
             <div id="stimuli-container"></div>
 
-            <div style="margin-top: 24px;">
-                <button id="next-btn" onclick="nextTrial()" data-i18n="btn_next">Sonraki Test</button>
+            <div class="action-area">
+                <button id="next-btn" class="btn-primary" onclick="nextTrial()" data-i18n="btn_next">Sonraki Test</button>
             </div>
         </div>
 
@@ -78,7 +80,7 @@
             <h2 data-i18n="thanks_title">Teşekkür Ederiz!</h2>
             <p data-i18n="thanks_text">Yanıtlarınız başarıyla araştırma veri tabanımıza kaydedildi.</p>
         </div>
-    </div>
+    </main>
 
 </body>
 </html>
