@@ -135,3 +135,33 @@ button:hover { background-color: var(--primary-hover); }
 @media (max-width: 640px) {
     .stimulus-row { grid-template-columns: 1fr; gap: 8px; }
 }
+
+/* Referans Kutusu ve İçerik Görünürlüğü */
+.reference-box h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+}
+
+#stimuli-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stimulus-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px 40px;
+    gap: 12px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.stimulus-label {
+    font-weight: 600;
+    color: var(--text-color);
+}
