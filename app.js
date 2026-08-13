@@ -54,12 +54,12 @@ const i18n = {
     }
 };
 
-// Tüm Sentezleyiciler ve Parametre Havuzu
+// Yeni dosya yapısına uyumlu havuz (Klasör isimleri örneğinize göre düzenlendi)
 const poolData = {
     Csound: [
+        { parameter: "osc1.wave", folder: "p00_osc1.wave" },
         { parameter: "flt.type", folder: "p25_flt.type" },
         { parameter: "cho.rate", folder: "p40_cho.rate" }
-        // Diğer Csound parametre klasörlerini buraya ekleyebilirsin
     ],
     FluidSynth: [
         { parameter: "cc.expression", folder: "p04_cc.expression" },
@@ -91,13 +91,14 @@ function initRandomExperiment() {
     const chosenSynth = synths[Math.floor(Math.random() * synths.length)];
     const availableParams = poolData[chosenSynth];
     
-    // Karıştır ve 10 tanesini seç (eğer 10'dan azsa hepsini al)
+    // Karıştır ve en fazla 10 tanesini seç
     const shuffledParams = [...availableParams].sort(() => Math.random() - 0.5);
     const selectedParams = shuffledParams.slice(0, 10);
 
     const synthFolder = chosenSynth.toLowerCase();
     const refPath = `audio_files/audio_references/reference_${synthFolder}.wav`;
 
+    // Yeni dosya adı formatına (sweep_vX.XXXX.wav) birebir uyumlu yol üretimi
     activeTrials = selectedParams.map((item, index) => {
         return {
             trial_id: index + 1,
@@ -105,17 +106,17 @@ function initRandomExperiment() {
             parameter: item.parameter,
             ref: refPath,
             stimuli: [
-                { key: "p000", src: `audio_files/${synthFolder}/${item.folder}/sweep000_v0.0000.wav` },
-                { key: "p025", src: `audio_files/${synthFolder}/${item.folder}/sweep001_v0.2500.wav` },
+                { key: "p000", src: `audio_files/${synthFolder}/${item.folder}/sweep_v0.0000.wav` },
+                { key: "p025", src: `audio_files/${synthFolder}/${item.folder}/sweep_v0.2500.wav` },
                 { key: "p050_hidden", src: refPath },
-                { key: "p075", src: `audio_files/${synthFolder}/${item.folder}/sweep003_v0.7500.wav` },
-                { key: "p100", src: `audio_files/${synthFolder}/${item.folder}/sweep004_v1.0000.wav` }
+                { key: "p075", src: `audio_files/${synthFolder}/${item.folder}/sweep_v0.7500.wav` },
+                { key: "p100", src: `audio_files/${synthFolder}/${item.folder}/sweep_v1.0000.wav` }
             ]
         };
     });
 }
 
-// Tek Bir Ses Çalma Kontrolü (Diğer çalan sesleri durdurur)
+// Tek Bir Ses Çalma Kontrolü (Diğer çalan sesleri otomatik durdurur)
 function attachAudioListeners() {
     const allAudios = document.querySelectorAll("audio");
     allAudios.forEach(audio => {
@@ -141,7 +142,7 @@ function loadTrial(idx) {
     const trial = activeTrials[idx];
     const prefix = i18n[currentLang].trial_prefix;
     
-    // KÖR TEST: Sadece Test numarası yazar, Synth ve Parametre adı gizlidir
+    // KÖR TEST: Synth ve Parametre adı gizlenir, sadece Test numarası yazar
     document.getElementById("trial-title").textContent = `${prefix} ${idx + 1} / ${activeTrials.length}`;
     
     const refAudio = document.getElementById("ref-audio");
@@ -178,7 +179,7 @@ window.nextTrial = function() {
         scores[input.getAttribute("data-key")] = parseInt(input.value, 10);
     });
 
-    // Backend için synth ve parametre ismi JSON paketinde saklanır
+    // Backend için synth ve parametre ismi JSON paketinde eksiksiz tutulur
     collectedResults.push({
         trial_id: trial.trial_id,
         backend: trial.backend,
