@@ -1,7 +1,8 @@
 :root {
     --bg-color: #0f172a;
     --card-bg: #1e293b;
-    --border-color: #334155;
+    --border-color: #475569;
+    --input-bg: #0f172a;
     --text-color: #f8fafc;
     --text-muted: #94a3b8;
     --primary-color: #3b82f6;
@@ -18,6 +19,7 @@
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
     --border-color: #cbd5e1;
+    --input-bg: #f1f5f9;
     --text-color: #0f172a;
     --text-muted: #64748b;
     --primary-color: #2563eb;
@@ -27,7 +29,7 @@
     --warn-bg: #fffbeb;
     --warn-border: #f59e0b;
     --warn-text: #78350f;
-    --row-bg: #f1f5f9;
+    --row-bg: #f8fafc;
 }
 
 * {
@@ -60,21 +62,32 @@ body {
 
 .controls-group {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
-.controls-group button {
-    padding: 8px 12px;
+/* Yuvarlatılmış Dil ve Tema Butonları */
+.pill-btn {
+    padding: 8px 16px;
     font-size: 0.85rem;
+    font-weight: 600;
     background: var(--card-bg);
     color: var(--text-color);
     border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.pill-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .card { 
     background: var(--card-bg);
     border: 1px solid var(--border-color); 
-    padding: 20px; 
+    padding: 24px; 
     margin-bottom: 20px; 
     border-radius: 12px; 
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -150,7 +163,7 @@ p {
     color: var(--text-color);
 }
 
-.slider-wrapper {
+.slider-container-mobile {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -189,25 +202,39 @@ output {
 }
 
 .form-group { 
-    margin-bottom: 16px; 
+    margin-bottom: 20px; 
 }
 
 label { 
     display: block; 
     font-weight: 600; 
-    margin-bottom: 6px; 
-    font-size: 0.9rem;
+    margin-bottom: 8px; 
+    font-size: 0.95rem;
 }
 
-select {
+/* Belirginleştirilmiş Dropdown (Select) Kutuları */
+.custom-select {
     width: 100%;
-    padding: 12px;
+    padding: 12px 16px;
     border-radius: 8px;
-    background: var(--card-bg);
+    background-color: var(--input-bg);
     color: var(--text-color);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--border-color);
     font-size: 0.95rem;
-    appearance: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%233b82f6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
 .btn-primary { 
@@ -238,31 +265,19 @@ select {
     }
 
     .card {
-        padding: 16px;
+        padding: 18px;
         border-radius: 10px;
     }
 
-    /* Izgarayı mobil için Kart Görünümüne dönüştür */
     .stimulus-row {
         grid-template-columns: 1fr;
         gap: 10px;
         padding: 14px;
     }
 
-    .slider-container-mobile {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 4px;
-    }
-
     .scale-legend {
         flex-direction: column;
         gap: 4px;
         font-size: 0.78rem;
-    }
-
-    .controls-group button {
-        padding: 8px 10px;
     }
 }

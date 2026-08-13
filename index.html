@@ -12,8 +12,8 @@
     <!-- Header Controls -->
     <header class="top-bar">
         <div class="controls-group">
-            <button id="lang-btn" onclick="toggleLanguage()">EN</button>
-            <button id="theme-btn" onclick="toggleTheme()">☀️ Açık Mod</button>
+            <button id="lang-btn" class="pill-btn" onclick="toggleLanguage()">EN</button>
+            <button id="theme-btn" class="pill-btn" onclick="toggleTheme()">☀️ Açık Mod</button>
         </div>
     </header>
 
@@ -31,19 +31,23 @@
             
             <div class="form-group">
                 <label for="experience" data-i18n="label_exp">Ses Deneyimi:</label>
-                <select id="experience">
-                    <option value="Producer/Engineer" data-i18n="exp_1">Ses Tasarımcısı / Ses Mühendisi</option>
-                    <option value="Researcher" data-i18n="exp_2">Müzik Teknolojisi / Müzisyen</option>
-                    <option value="Casual" data-i18n="exp_3">Genel Dinleyici</option>
+                <select id="experience" class="custom-select">
+                    <option value="Audio Engineer / Sound Designer" data-i18n="exp_1">Ses Tasarımcısı / Mix-Mastering Mühendisi</option>
+                    <option value="Music Technologist / Producer" data-i18n="exp_2">Müzik Teknolojisi / Müzik Prodüktörü</option>
+                    <option value="Musician / Instrumentalist" data-i18n="exp_3">Enstrüman İcracısı / Müzisyen</option>
+                    <option value="Audiophile / Music Enthusiast" data-i18n="exp_4">Müzik Sever / Hobi Amaçlı Dinleyici</option>
+                    <option value="Casual Listener" data-i18n="exp_5">Genel Dinleyici</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="hardware" data-i18n="label_hw">Dinleme Ekipmanı:</label>
-                <select id="hardware">
-                    <option value="Over-ear Headphones" data-i18n="hw_1">Kulak Üstü Kulaklık</option>
-                    <option value="IEMs" data-i18n="hw_2">Kulak İçi Kulaklık</option>
-                    <option value="Monitors" data-i18n="hw_3">Referans Monitörü</option>
+                <select id="hardware" class="custom-select">
+                    <option value="Over-ear Studio Headphones" data-i18n="hw_1">Kulak Üstü Referans Kulaklık</option>
+                    <option value="In-Ear Monitors (IEMs)" data-i18n="hw_2">Kulak İçi Profesyonel Monitör (IEM)</option>
+                    <option value="Earbuds / Wireless Earphones" data-i18n="hw_3">Tüketici Tipi Kulaklık (AirPods vb.)</option>
+                    <option value="Studio Monitor Speakers" data-i18n="hw_4">Stüdyo Referans Monitörü</option>
+                    <option value="Laptop / Desktop Speakers" data-i18n="hw_5">Masaüstü / Laptop Hoparlörü</option>
                 </select>
             </div>
 
@@ -55,7 +59,7 @@
             <h3 id="trial-title">Test 1 / 10</h3>
             
             <div class="reference-box">
-                <h4 data-i18n="ref_title">Referans Ses (Çıpa, p = 0.50)</h4>
+                <h4 data-i18n="ref_title">Referans Ses</h4>
                 <audio id="ref-audio" controls class="test-audio"></audio>
             </div>
 
