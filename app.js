@@ -54,30 +54,36 @@ const i18n = {
     }
 };
 
-// Yeni dosya yapısına uyumlu havuz (Klasör isimleri örneğinize göre düzenlendi)
+// Sentezleyiciler ve Tüm Parametre Havuzu
+// Bütün ses dosyalarını yüklediğinde klasör adlarını bu dizilere eklemen yeterlidir.
 const poolData = {
     Csound: [
         { parameter: "osc1.wave", folder: "p00_osc1.wave" },
         { parameter: "flt.type", folder: "p25_flt.type" },
         { parameter: "cho.rate", folder: "p40_cho.rate" }
+        // Csound için yükleyeceğin diğer tüm klasörleri buraya ekle
     ],
     FluidSynth: [
         { parameter: "cc.expression", folder: "p04_cc.expression" },
         { parameter: "gen.mod_attack", folder: "p27_gen.mod_attack" },
         { parameter: "gen.mod_sustain", folder: "p30_gen.mod_sustain" }
+        // FluidSynth için diğer tüm klasörler
     ],
     Pedalboard: [
         { parameter: "flt.cutoff", folder: "p23_flt.cutoff" },
         { parameter: "flt.mode", folder: "p25_flt.mode" }
+        // Pedalboard için diğer tüm klasörler
     ],
     Pyo: [
         { parameter: "flt.resonance", folder: "p24_flt.resonance" },
         { parameter: "rev.damp", folder: "p40_rev.damp" },
         { parameter: "del.time", folder: "p46_del.time" }
+        // Pyo için diğer tüm klasörler
     ],
     TorchSynth: [
         { parameter: "adsr1.release", folder: "p03_adsr1.release" },
         { parameter: "vco2.tuning", folder: "p72_vco2.tuning" }
+        // TorchSynth için diğer tüm klasörler
     ]
 };
 
@@ -85,20 +91,31 @@ let activeTrials = [];
 let currentTrialIdx = 0;
 let collectedResults = [];
 
-// Rastgele Seçim Fonksiyonu
+// Fisher-Yates Rastgele Karıştırma Algoritması
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// 1 Synth Seçimi + Seçilen Synth'ten 10 Parametre Seçimi
 function initRandomExperiment() {
+    // 1. 5 Synth arasından rastgele 1 tanesini seç
     const synths = Object.keys(poolData);
     const chosenSynth = synths[Math.floor(Math.random() * synths.length)];
     const availableParams = poolData[chosenSynth];
     
-    // Karıştır ve en fazla 10 tanesini seç
-    const shuffledParams = [...availableParams].sort(() => Math.random() - 0.5);
+    // 2. Seçilen synth'e ait parametreleri karıştır ve RASTGELE 10 TANESİNİ al
+    const shuffledParams = shuffleArray(availableParams);
     const selectedParams = shuffledParams.slice(0, 10);
 
     const synthFolder = chosenSynth.toLowerCase();
     const refPath = `audio_files/audio_references/reference_${synthFolder}.wav`;
 
-    // Yeni dosya adı formatına (sweep_vX.XXXX.wav) birebir uyumlu yol üretimi
+    // 3. Seçilen 10 parametre için test dizisini oluştur
     activeTrials = selectedParams.map((item, index) => {
         return {
             trial_id: index + 1,
@@ -116,7 +133,7 @@ function initRandomExperiment() {
     });
 }
 
-// Tek Bir Ses Çalma Kontrolü (Diğer çalan sesleri otomatik durdurur)
+// Tek Bir Ses Çalma Kontrolü (Aynı anda sadece 1 ses çalar)
 function attachAudioListeners() {
     const allAudios = document.querySelectorAll("audio");
     allAudios.forEach(audio => {
@@ -152,10 +169,11 @@ function loadTrial(idx) {
     const container = document.getElementById("stimuli-container");
     container.innerHTML = "";
 
-    const shuffled = [...trial.stimuli].sort(() => Math.random() - 0.5);
+    // 5 uyarını (A, B, C, D, E) karıştır
+    const shuffledStimuli = shuffleArray(trial.stimuli);
     const labels = ["Stimulus A", "Stimulus B", "Stimulus C", "Stimulus D", "Stimulus E"];
 
-    shuffled.forEach((item, index) => {
+    shuffledStimuli.forEach((item, index) => {
         const row = document.createElement("div");
         row.className = "stimulus-row";
         row.innerHTML = `
@@ -179,7 +197,7 @@ window.nextTrial = function() {
         scores[input.getAttribute("data-key")] = parseInt(input.value, 10);
     });
 
-    // Backend için synth ve parametre ismi JSON paketinde eksiksiz tutulur
+    // Backend (Google Sheets) için Synth adı ve Parametre adı JSON'a eklenir
     collectedResults.push({
         trial_id: trial.trial_id,
         backend: trial.backend,
