@@ -1,65 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Parameter Sensitivity Listening Test</title>
+    <title>Ses Parametresi Duyarlılık Testi</title>
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
 <body>
 
+    <!-- Header Controls -->
+    <header class="top-bar">
+        <div class="controls-group">
+            <button id="lang-btn" onclick="toggleLanguage()">EN</button>
+            <button id="theme-btn" onclick="toggleTheme()">☀️ Açık Mod</button>
+        </div>
+    </header>
+
     <div class="container">
-        <!-- Onboarding / Calibration Phase -->
+        <!-- Onboarding Screen -->
         <div id="onboarding-screen" class="card">
-            <h2>Listening Test: Synthesizer Timbral Sensitivity</h2>
-            <p>Help us evaluate how human listening perceives changes across synthesizer controls compared to baseline reference sounds.</p>
+            <h2 data-i18n="title">Dinleme Testi: Sentezleyici Tınısal Duyarlılığı</h2>
+            <p data-i18n="desc">Sentezleyici kontrollerindeki değişimlerin insan kulağı tarafından nasıl algılandığını değerlendirmemize yardımcı olun.</p>
+
+            <!-- Audio Safety Warning -->
+            <div class="warning-box">
+                <strong data-i18n="warn_title">⚠️ İşitsel Güvenlik Uyarısı:</strong>
+                <p data-i18n="warn_text">Sentezleyici parametre taramaları ani yüksek frekanslar veya ses seviyesi değişiklikleri içerebilir. Lütfen kulaklık veya hoparlör ses seviyenizi güvenli bir düzeye ayarlayın.</p>
+            </div>
             
             <div class="form-group">
-                <label for="experience">Audio Background:</label>
+                <label for="experience" data-i18n="label_exp">Ses Deneyimi:</label>
                 <select id="experience">
-                    <option value="Producer/Engineer">Sound Designer / Audio Engineer</option>
-                    <option value="Researcher">Audio Researcher / Musician</option>
-                    <option value="Casual">Casual Listener</option>
+                    <option value="Producer/Engineer" data-i18n="exp_1">Ses Tasarımcısı / Ses Mühendisi</option>
+                    <option value="Researcher" data-i18n="exp_2">Müzik Teknolojisi / Müzisyen</option>
+                    <option value="Casual" data-i18n="exp_3">Genel Dinleyici</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="hardware">Listening Equipment:</label>
+                <label for="hardware" data-i18n="label_hw">Dinleme Ekipmanı:</label>
                 <select id="hardware">
-                    <option value="Over-ear Headphones">Over-ear Headphones</option>
-                    <option value="IEMs">In-Ear Monitors / Earbuds</option>
-                    <option value="Monitors">Studio Monitors</option>
+                    <option value="Over-ear Headphones" data-i18n="hw_1">Kulak Üstü Kulaklık</option>
+                    <option value="IEMs" data-i18n="hw_2">Kulak İçi Kulaklık</option>
+                    <option value="Monitors" data-i18n="hw_3">Referans Monitörü</option>
                 </select>
             </div>
 
-            <button id="start-btn" onclick="startTest()">Start Experiment</button>
+            <button id="start-btn" onclick="startTest()" data-i18n="btn_start">Deneyi Başlat</button>
         </div>
 
         <!-- Trial Screen -->
         <div id="trial-screen" class="card hidden">
-            <h3 id="trial-title">Trial 1 / 12</h3>
+            <h3 id="trial-title">Test 1 / 10</h3>
             
             <div class="reference-box">
-                <h4>Reference Sound (Baseline Anchor, p = 0.50)</h4>
-                <audio id="ref-audio" controls></audio>
+                <h4 data-i18n="ref_title">Referans Ses (Çıpa, p = 0.50)</h4>
+                <audio id="ref-audio" controls class="test-audio"></audio>
             </div>
 
-            <p><strong>Rate Timbral Differences against Reference:</strong></p>
+            <p><strong data-i18n="rate_title">Referansa Kıyasla Tınısal Farkı Puanlayın:</strong></p>
             <div class="scale-legend">
-                <span>0 = Identical to Reference</span>
-                <span>100 = Completely Different Sound</span>
+                <span data-i18n="scale_0">0 = Referans ile Birebir Aynı</span>
+                <span data-i18n="scale_100">100 = Tamamen Farklı Ses</span>
             </div>
 
             <div id="stimuli-container"></div>
 
-            <button id="next-btn" onclick="nextTrial()">Next Trial</button>
+            <button id="next-btn" onclick="nextTrial()" data-i18n="btn_next">Sonraki Test</button>
         </div>
 
         <!-- Completion Screen -->
         <div id="completion-screen" class="card hidden">
-            <h2>Thank You!</h2>
-            <p>Your responses have been successfully submitted to the research database.</p>
+            <h2 data-i18n="thanks_title">Teşekkür Ederiz!</h2>
+            <p data-i18n="thanks_text">Yanıtlarınız başarıyla araştırma veri tabanımıza kaydedildi.</p>
         </div>
     </div>
 
