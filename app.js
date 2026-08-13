@@ -1,10 +1,10 @@
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbytH3vOVCQhxaCHFxynAW2LR338bdUHagCgbuVWjH2PF4HscuZxn6UynP_-4rjtUIneMw/exec";
 const raterId = "usr_" + Math.random().toString(36).substring(2, 8);
 
-// Dil Tesisatı (i18n)
 let currentLang = "tr";
 let currentTheme = "dark";
 
+// Dil Tesisatı (5'erli Seçenekler İçerir)
 const i18n = {
     tr: {
         title: "Dinleme Testi: Sentezleyici Tınısal Duyarlılığı",
@@ -61,7 +61,8 @@ const i18n = {
         trial_prefix: "Trial"
     }
 };
-// 5 Sentezleyiciye Ait TAM (Exhaustive) Parametre Havuzu
+
+// 5 Sentezleyiciye Ait TAM (288 Parametre) Havuz
 const poolData = {
     Csound: [
         { parameter: "osc1.wave", folder: "p00_osc1.wave" },
@@ -367,7 +368,7 @@ let activeTrials = [];
 let currentTrialIdx = 0;
 let collectedResults = [];
 
-// Fisher-Yates Rastgele Karıştırma Algoritması
+// Fisher-Yates Karıştırma
 function shuffleArray(array) {
     const arr = [...array];
     for (let i = arr.length - 1; i > 0; i--) {
@@ -383,7 +384,6 @@ function initRandomExperiment() {
     const chosenSynth = synths[Math.floor(Math.random() * synths.length)];
     const availableParams = poolData[chosenSynth];
     
-    // Seçilen synth'e ait tüm parametreleri karıştır ve RASTGELE 10 TANESİNİ al
     const shuffledParams = shuffleArray(availableParams);
     const selectedParams = shuffledParams.slice(0, 10);
 
@@ -435,7 +435,7 @@ function loadTrial(idx) {
 
     const prefix = i18n[currentLang].trial_prefix;
     
-    // KÖR TEST: Synth ve Parametre adı gizlenir, sadece Test numarası yazar
+    // KÖR TEST: Synth ve Parametre adı gizlenir
     document.getElementById("trial-title").textContent = `${prefix} ${idx + 1} / ${activeTrials.length}`;
     
     const refAudio = document.getElementById("ref-audio");
@@ -445,7 +445,6 @@ function loadTrial(idx) {
     const container = document.getElementById("stimuli-container");
     container.innerHTML = "";
 
-    // 5 uyaranı (A, B, C, D, E) karıştır
     const shuffledStimuli = shuffleArray(trial.stimuli);
     const labels = ["Stimulus A", "Stimulus B", "Stimulus C", "Stimulus D", "Stimulus E"];
 
@@ -455,8 +454,10 @@ function loadTrial(idx) {
         row.innerHTML = `
             <span class="stimulus-label">${labels[index]}</span>
             <audio controls src="${item.src}" class="test-audio"></audio>
-            <input type="range" class="score-input" data-key="${item.key}" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
-            <output>50</output>
+            <div class="slider-container-mobile">
+                <input type="range" class="score-input" data-key="${item.key}" min="0" max="100" value="50" oninput="this.nextElementSibling.value = this.value">
+                <output>50</output>
+            </div>
         `;
         container.appendChild(row);
     });
@@ -474,7 +475,6 @@ window.nextTrial = function() {
         scores[input.getAttribute("data-key")] = parseInt(input.value, 10);
     });
 
-    // Backend (Google Sheets) için Synth adı ve Parametre adı JSON'a eklenir
     collectedResults.push({
         trial_id: trial.trial_id,
         backend: trial.backend,
